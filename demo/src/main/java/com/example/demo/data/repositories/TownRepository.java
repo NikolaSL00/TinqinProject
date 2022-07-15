@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface TownRepository extends JpaRepository<Town, Long> {
     Optional<Town> findByNameAndCountryName(String name, String countryName);
+
+    Optional<Town> findById(long id);
 }

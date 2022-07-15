@@ -1,9 +1,6 @@
 package com.example.demo.data.models.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,6 +12,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Country {
 
     @Id
@@ -24,6 +22,13 @@ public class Country {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "country")
-    private Set<Town> towns;
+//    @OneToMany(fetch = FetchType.EAGER, mappedBy = "country")
+//    private Set<Town> towns;
+
+//    public void addTown(Town town){
+//        this.towns.add(town);
+//    }
+//    public void removeTown(Town town){
+//        this.towns.remove(town);
+//    }
 }
