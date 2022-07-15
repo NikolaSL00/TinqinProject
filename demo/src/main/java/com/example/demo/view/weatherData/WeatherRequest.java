@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 @Service
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class WeatherRequest {

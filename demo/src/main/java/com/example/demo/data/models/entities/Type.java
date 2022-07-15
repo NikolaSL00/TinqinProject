@@ -1,9 +1,6 @@
 package com.example.demo.data.models.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -14,6 +11,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Type {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +20,13 @@ public class Type {
     @Column(nullable = false)
     private String label;
 
-    @OneToMany(mappedBy = "type", fetch = FetchType.EAGER)
-    private Set<Town> towns;
+//    @OneToMany(mappedBy = "type", fetch = FetchType.EAGER)
+//    private Set<Town> towns;
+//
+//    public void addTown(Town town){
+//        this.towns.add(town);
+//    }
+//    public void removeTown(Town town){
+//        this.towns.remove(town);
+//    }
 }
