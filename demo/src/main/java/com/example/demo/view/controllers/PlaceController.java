@@ -2,8 +2,12 @@ package com.example.demo.view.controllers;
 
 import com.example.demo.domain.place.PlaceService;
 import com.example.demo.view.placeData.PlaceCreateRequest;
+import com.example.demo.view.placeData.PlaceResponse;
 import com.example.demo.view.placeData.PlaceUpdateRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class PlaceController {
@@ -15,8 +19,13 @@ public class PlaceController {
     }
 
     @GetMapping("/places")
-    String getPlace(@RequestParam final String id) {
-        return placeService.getPlace(id).toString();
+    List<PlaceResponse> findAll(){
+        return placeService.findAll();
+    }
+
+    @GetMapping(value = "/places", params = "id")
+    ResponseEntity<PlaceResponse> getPlace(@RequestParam final String id) {
+        return placeService.getPlace(id);
         // it returns the place
     }
 

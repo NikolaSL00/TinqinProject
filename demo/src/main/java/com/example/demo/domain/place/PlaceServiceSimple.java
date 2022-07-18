@@ -11,17 +11,19 @@ import com.example.demo.view.placeData.PlaceCreateRequest;
 import com.example.demo.view.placeData.PlaceResponse;
 import com.example.demo.view.placeData.PlaceUpdateRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PlaceServiceSimple implements PlaceService {
 
     private final TownRepository townRepository;
     private final CountryRepository countryRepository;
-
     private final TypeRepository typeRepository;
 
     private final TownViewMapper townViewMapper;
@@ -34,17 +36,37 @@ public class PlaceServiceSimple implements PlaceService {
     }
 
     @Override
-    public PlaceResponse getPlace(String id) {
-        Long Id = Long.valueOf(id);
+    public List<PlaceResponse> findAll() {
+        List<Town> places = townRepository.findAll();
 
-        Optional<Town> optTown = townRepository.findById(Id);
+        return places.stream()
+                .map(place ->
+                    PlaceResponse.builder()
+                            .name(place.getName())
+                            .country(place.getCountry().getName())
+                            .latitude(place.getLatitude())
+                            .longitude(place.getLongitude())
+                            .type(place.getType().getLabel())
+                            .build())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public ResponseEntity<PlaceResponse> getPlace(String id) {
+        Optional<Town> optTown = townRepository.findById(Long.valueOf(id));
 
         if (optTown.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Town does not exist",
-                    new Exception("Town does not exists"));
+            return ResponseEntity
+                    .notFound()
+                    .build();
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+//                    "Town does not exist",
+//                    new Exception("Town does not exists"));
         }
-        return townViewMapper.townToPlaceResponse(optTown.get());
+//        return townViewMapper.townToPlaceResponse(optTown.get());
+        return ResponseEntity.ok(
+
+                townViewMapper.townToPlaceResponse(optTown.get()));
     }
 
     @Override
